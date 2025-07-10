@@ -2,14 +2,14 @@
 
 A **Python-based tool** for measuring leaf area from scanned images using OpenCV and multi-color masking techniques.
 
----
+
 
 ## ✨ Features:
 - Calculates **total, average, and individual leaf areas** (cm²)
 - Detects **different color variations and shapes** of leaves
 - Exports results to **CSV files** and saves **processed images** with contours and leaf numbering
 
----
+
 
 ## 🚀 How to Use:
 
@@ -33,7 +33,7 @@ A **Python-based tool** for measuring leaf area from scanned images using OpenCV
    - Follow the on-screen instructions to **set the scale** by clicking two points exactly 1 cm apart on the ruler image.
    - The script will automatically process the images.
 
----
+
 
 ## 📄 Outputs:
 - A folder named `Processed` containing images with contours and leaf numbers.
@@ -41,14 +41,14 @@ A **Python-based tool** for measuring leaf area from scanned images using OpenCV
   1. **Individual Leaf Areas:** Leaf area for each leaf in every image.
   2. **Leaf_Area_Results:** Total number of leaves and average leaf area per image.
 
----
+
 
 ## 💡 Tips for Success:
 - Make sure images are **scanned clearly and uniformly.**
 - Don’t forget the **scale image** for accurate area calculations.
 - Verify the **input/output** folder paths before running.
 
----
+
 
 ## 🙋 Need Help?
 Contact: **Emilio Suarez**  
@@ -56,7 +56,7 @@ Contact: **Emilio Suarez**
 
 Feel free to modify this code and try it on **other leaf types, crops, or research applications**!
 
----
+
 
 ## 📜 License:
 Licensed under the **MIT License**.
