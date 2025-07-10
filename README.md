@@ -1,6 +1,6 @@
 # Leaf Area Analyzer 🍃
 
-A Python-based tool for measuring leaf area from images using OpenCV and multi-color masking techniques.
+A Python-based tool for measuring leaf area from scanned images using OpenCV and multi-color masking techniques.
 
 ## Features:
 - Calculates total, average, and individual leaf areas in cm²
