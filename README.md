@@ -8,7 +8,7 @@ A Python-based tool for measuring leaf area from scanned images using OpenCV and
 - Exports results to CSV and saves processed images
 
 ## How to Use:
-1. Clone this repository.
+1. Copy the script into your terminal
 2. Install required libraries: `opencv-python`, `numpy`, `pandas`.
 3. Run the script and follow on-screen instructions to set the scale and process images.
 
