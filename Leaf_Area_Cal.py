@@ -1,5 +1,5 @@
 """
-Leaf Area Analyzer - Multi-Color Leaf Detection
+Leaf Area Analyzer
 Version: Ver04_MultiColor_Leaves
 Author: Emilio Suarez
 
