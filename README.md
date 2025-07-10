@@ -1,64 +1,63 @@
-Leaf Area Analyzer for Citrus 🍃
-A Python-based tool for measuring leaf area from scanned images using OpenCV and multi-color masking techniques.
+# Leaf Area Analyzer for Citrus 🍃
 
-✨ Features:
-Calculates total, average, and individual leaf areas (cm²)
+A **Python-based tool** for measuring leaf area from scanned images using OpenCV and multi-color masking techniques.
 
-Detects different color variations and shapes of leaves
+---
 
-Exports results to CSV files and saves processed images with contours and leaf numbering
+## ✨ Features:
+- Calculates **total, average, and individual leaf areas** (cm²)
+- Detects **different color variations and shapes** of leaves
+- Exports results to **CSV files** and saves **processed images** with contours and leaf numbering
 
-🚀 How to Use:
-Prepare Your Images:
+---
 
-Place your scanned leaf images and a scanned ruler image (named scale_image.jpg) in the same folder.
+## 🚀 How to Use:
 
-Set Up the Script:
+1. **Prepare Your Images:**
+   - Place your **scanned leaf images** and a **scanned ruler image** (named `scale_image.jpg`) in the same folder.
 
-Copy or download the script into your Python environment.
+2. **Set Up the Script:**
+   - Copy or download the script into your Python environment.
+   - Install the required libraries:
+     ```bash
+     pip install opencv-python numpy pandas
+     ```
 
-Install the required libraries:
+3. **Check Input and Output Paths:**
+   - Open the `.py` file and make sure the **input** and **output** folder paths match your folder structure.
 
-bash
-Copy
-Edit
-pip install opencv-python numpy pandas
-Check Input and Output Paths:
+4. **Watch the Tutorial:**
+   - 📹 [Click here to watch the video instructions](https://youtu.be/bThS7Iwn94A)
 
-Open the .py file and make sure the input and output folder paths match your folder structure.
+5. **Run the Script:**
+   - Follow the on-screen instructions to **set the scale** by clicking two points exactly 1 cm apart on the ruler image.
+   - The script will automatically process the images.
 
-Watch the Tutorial:
+---
 
-📺 Click here to watch the video instructions
+## 📄 Outputs:
+- A folder named `Processed` containing images with contours and leaf numbers.
+- Two Excel files:
+  1. **Individual Leaf Areas:** Leaf area for each leaf in every image.
+  2. **Summary Results:** Total number of leaves and average leaf area per image.
 
-Run the Script:
+---
 
-Follow the on-screen instructions to set the scale by clicking two points exactly 1 cm apart on the ruler image.
+## 💡 Tips for Success:
+- Make sure images are **scanned clearly and uniformly.**
+- Don’t forget the **scale image** for accurate area calculations.
+- Verify the **input/output** folder paths before running.
 
-The script will automatically process the images.
+---
 
-📄 Outputs:
-A folder named Processed containing images with contours and leaf numbers.
-
-Two Excel files:
-
-Individual Leaf Areas: Leaf area for each leaf in every image.
-
-Summary Results: Total number of leaves and average leaf area per image.
-
-💡 Tips for Success:
-Make sure images are scanned clearly and uniformly.
-
-Don’t forget the scale image for accurate area calculations.
-
-Verify the input/output folder paths before running.
-
-🙋 Need Help?
-Contact: Emilio Suarez
+## 🙋 Need Help?
+Contact: **Emilio Suarez**  
 📧 eps98075@uga.edu
 
-Feel free to modify this code and try it on other leaf types, crops, or research applications!
+Feel free to modify this code and try it on **other leaf types, crops, or research applications**!
 
-📜 License:
-Licensed under the MIT License.
+---
+
+## 📜 License:
+Licensed under the **MIT License**.
 
