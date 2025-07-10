@@ -39,7 +39,7 @@ A **Python-based tool** for measuring leaf area from scanned images using OpenCV
 - A folder named `Processed` containing images with contours and leaf numbers.
 - Two Excel files:
   1. **Individual Leaf Areas:** Leaf area for each leaf in every image.
-  2. **Summary Results:** Total number of leaves and average leaf area per image.
+  2. **Leaf_Area_Results:** Total number of leaves and average leaf area per image.
 
 ---
 
