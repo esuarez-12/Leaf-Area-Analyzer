@@ -56,8 +56,3 @@ Contact: **Emilio Suarez**
 
 Feel free to modify this code and try it on **other leaf types, crops, or research applications**!
 
-
-
-## 📜 License:
-Licensed under the **MIT License**.
-
