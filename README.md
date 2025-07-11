@@ -24,7 +24,7 @@ A **Python-based tool** for measuring leaf area from scanned images using OpenCV
      ```
 
 3. **Check Input and Output Paths:**
-   - Open the `.py` file and make sure the **input** and **output** folder paths match your folder structure.
+   - In the `.py` file and make sure the **input** and **output** folder paths match your folder structure.
 
 4. **Watch the Tutorial:**
    - 📹 [Click here to watch the video instructions](https://youtu.be/bThS7Iwn94A)
