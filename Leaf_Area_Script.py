@@ -10,7 +10,7 @@ import numpy as np
 import os
 import pandas as pd
 
-# === USER SETTINGS ===
+# USER SETTINGS
 folder_path = os.path.join(os.getcwd(), 'input')
 scale_image_path = os.path.join(folder_path, 'scale_image.jpg')
 output_folder = os.path.join(os.getcwd(), 'output')
@@ -46,7 +46,7 @@ def set_scale(image_path):
     print(f"✅ Scale set: {pixels_per_cm:.2f} pixels = 1 cm")
     return pixels_per_cm
 
-# === FUNCTION: LEAF IMAGE PROCESSING ===
+# FUNCTION: LEAF IMAGE PROCESSING 
 def process_leaf_image(image_path, pixels_per_cm, output_folder):
     img = cv2.imread(image_path)
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
@@ -104,7 +104,7 @@ def process_leaf_image(image_path, pixels_per_cm, output_folder):
 
     return total_leaf_area, num_leaves, avg_leaf_area, leaf_areas_cm2
 
-# === MAIN SCRIPT ===
+# MAIN SCRIPT 
 if __name__ == '__main__':
     results = []
     individual_leaf_data = []
