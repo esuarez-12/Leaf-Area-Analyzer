@@ -19,7 +19,7 @@ output_csv_individual = os.path.join(output_folder, 'Individual_Leaf_Areas.csv')
 
 os.makedirs(output_folder, exist_ok=True)
 
-# === FUNCTION: SCALE SETUP ===
+# FUNCTION: SCALE SETUP
 def set_scale(image_path):
     img = cv2.imread(image_path)
     points = []
