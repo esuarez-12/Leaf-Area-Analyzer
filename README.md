@@ -1,10 +1,10 @@
-# Leaf Area Analyzer for Citrus 🍃
+# Leaf Area Analyzer for Citrus 
 
 A **Python-based tool** for measuring leaf area from scanned images using OpenCV and multi-color masking techniques.
 
 
 
-## ✨ Features:
+##  Features:
 - Calculates **total, average, and individual leaf areas** (cm²)
 - Detects **different color variations and shapes** of leaves
 - Exports results to **CSV files** and saves **processed images** with contours and leaf numbering
