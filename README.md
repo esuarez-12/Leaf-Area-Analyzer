@@ -11,7 +11,7 @@ A **Python-based tool** for measuring leaf area from scanned images using OpenCV
 
 
 
-## 🚀 How to Use:
+##  How to Use:
 
 1. **Prepare Your Images:**
    - Place your **scanned leaf images** and a **reference image with the scale** (named `scale_image.jpg`) in the same folder.
@@ -26,8 +26,8 @@ A **Python-based tool** for measuring leaf area from scanned images using OpenCV
 3. **Check Input and Output Paths:**
    - Open the `.py` file and make sure the **input** and **output** folder paths match your folder structure containing the images and the location for where the files will be saved.
 
-4. **Watch the Tutorial:**
-   - 📹 [Click here to watch the video instructions](https://youtu.be/bThS7Iwn94A)
+4. **Watch the Tutorial 📹:**
+   -  [Click here to watch the video instructions](https://youtu.be/bThS7Iwn94A)
 
 5. **Run the Script:**
    - Follow the on-screen instructions to **set the scale** by clicking two points exactly 1 cm apart on the ruler image.
@@ -35,7 +35,7 @@ A **Python-based tool** for measuring leaf area from scanned images using OpenCV
 
 
 
-## 📄 Outputs:
+##  Outputs:
 - A folder named `Processed` containing images with contours and leaf numbers.
 - Two Excel files:
   1. **Individual Leaf Areas:** Leaf area for each leaf in every image.
