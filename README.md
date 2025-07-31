@@ -43,7 +43,7 @@ A **Python-based tool** for measuring leaf area from scanned images using OpenCV
 
 
 
-## 💡 Tips for Success:
+## Tips for Success:
 - Make sure images are **scanned clearly and uniformly**, with no touching between leaves and each leaf scanned fully on the scanner bed.
 - Don’t forget the **scale image** for accurate area calculations.
 - Verify the **input/output** folder paths before running.
