@@ -86,7 +86,7 @@ def process_leaf_image(image_path, pixels_per_cm, output_folder):
             area_cm2 = area_pixels / (pixels_per_cm ** 2)
             leaf_areas_cm2.append(area_cm2)
 
-            cv2.drawContours(img_with_contours, [contour_smooth], -1, (0, 255, 0), 2)
+            cv2.drawContours(img_with_contours, [contour_smooth], -1, (0, 0, 255), 2)
             M = cv2.moments(contour_smooth)
             if M["m00"] != 0:
                 cX = int(M["m10"] / M["m00"])
@@ -141,3 +141,4 @@ if __name__ == '__main__':
     print(f"\n✅ All done! Results saved to:\n{output_csv}")
     print(f"📄 Individual leaf areas saved to:\n{output_csv_individual}")
     print(f"🖼 Processed images saved to:\n{output_folder}")
+
