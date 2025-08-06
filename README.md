@@ -51,6 +51,6 @@ A **Python-based tool** for measuring leaf area from scanned images using OpenCV
 
 ## 🙋 Need Help?
 Contact: **Emilio Suarez**  
-📧 eps98075@uga.edu
+📧 emilio.suarez@uga.edu
 
 Feel free to modify this code and try it on **other leaf types, crops, or research applications**—and remember to **cite us** if you use this tool in your work!
