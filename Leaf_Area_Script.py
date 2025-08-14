@@ -92,7 +92,7 @@ def process_leaf_image(image_path, pixels_per_cm, output_folder):
                 cX = int(M["m10"] / M["m00"])
                 cY = int(M["m01"] / M["m00"])
                 cv2.putText(img_with_contours, str(len(leaf_areas_cm2)), (cX, cY),
-                            cv2.FONT_HERSHEY_SIMPLEX, 1.2, (255, 0, 0), 3)
+                            cv2.FONT_HERSHEY_SIMPLEX, 2.0, (255, 0, 0), 5)
 
     total_leaf_area = sum(leaf_areas_cm2)
     num_leaves = len(leaf_areas_cm2)
@@ -141,4 +141,5 @@ if __name__ == '__main__':
     print(f"\n✅ All done! Results saved to:\n{output_csv}")
     print(f"📄 Individual leaf areas saved to:\n{output_csv_individual}")
     print(f"🖼 Processed images saved to:\n{output_folder}")
+
 
