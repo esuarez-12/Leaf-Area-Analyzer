@@ -54,3 +54,14 @@ Contact: **Emilio Suarez**
 📧 emilio.suarez@uga.edu
 
 Feel free to modify this code and try it on **other leaf types, crops, or research applications**—and remember to **cite us** if you use this tool in your work!
+
+📖 Citation
+
+If you use this tool, please cite the following article:
+
+In-text citation: (Suarez et al., 2025)
+
+APA Style Reference:
+Suarez, E., Blaser, M., & Sutton, M. (2025). Automating Leaf Area Measurement in Citrus: The Development and Validation of a Python-Based Tool. Applied Sciences, 15(17), 9750. https://doi.org/10.3390/app15179750
+
+Read the full article here
