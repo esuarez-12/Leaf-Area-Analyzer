@@ -55,7 +55,7 @@ Contact: **Emilio Suarez**
 
 Feel free to modify this code for other leaf types, crops, or research applications—and remember to **cite us** if you use this tool in your work!
 
-##📖 Citation
+## 📖 Citation
 
 If you use this tool, please cite the following article:
 
