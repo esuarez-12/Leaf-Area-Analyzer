@@ -1,4 +1,14 @@
-# Leaf Area Analyzer for Citrus 
+#Download the Executable
+
+If you don’t want to run the Python script manually, you can download the ready-to-use executable (.exe) version of the tool.
+
+Go to the Releases section of this repository.
+
+Download the ZIP folder for the latest version (e.g., LeafAreaAnalyzer_v1.1.0.zip).
+
+Extract the ZIP file — it contains the Leaf_Area_Analyzer.exe, which can be run directly on Windows without needing Python installed.
+
+## Leaf Area Analyzer for Citrus 
 
 A **Python-based tool** for measuring leaf area from scanned images using OpenCV and multi-color masking techniques.
 
