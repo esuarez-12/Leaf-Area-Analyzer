@@ -1,4 +1,4 @@
-# Download the Executable
+# 🚨 Download the Executable 🚨
 
 If you don’t want to run the Python script manually, you can download the ready-to-use executable (.exe) version of the tool.
 
