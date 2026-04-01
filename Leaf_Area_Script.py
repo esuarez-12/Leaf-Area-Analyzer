@@ -1,11 +1,15 @@
-# Leaf Area Analyzer v1.1.0 - Multi-Color Mask, Robust Contours)
+# Leaf Area Analyzer v1.1
 #Author: Emilio Suarez
-#Date: September 2025
+#Date: April 2026
 # ------------------------------------------------
 # 🚨 USER INSTRUCTIONS:
 # 1. Replace the paths below with your own local folders/files.
 # 2. Ensure your folder contains the leaf images AND the scale image (1 cm reference).
 # ------------------------------------------------
+
+"""
+Citrus Leaf Area Analyzer (Ver 1.1)
+"""
 
 import cv2
 import numpy as np
@@ -22,125 +26,126 @@ output_csv_individual = os.path.join(base_folder, 'Individual_Leaf_Areas.csv')
 output_image_folder = os.path.join(base_folder, 'Processed')
 os.makedirs(output_image_folder, exist_ok=True)
 
-# === FUNCTION: SCALE SETUP ===
 def set_scale(image_path):
+    """
+    Initializes pixel-to-cm calibration via manual input.
+    """
     img = cv2.imread(image_path)
+    if img is None:
+        raise FileNotFoundError(f"Scale image not found: {image_path}")
+    
     points = []
-
     def click_event(event, x, y, flags, param):
         if event == cv2.EVENT_LBUTTONDOWN:
             points.append((x, y))
             cv2.circle(img_copy, (x, y), 5, (0, 255, 0), -1)
-            cv2.imshow('Set Scale - Click two points 1 cm apart', img_copy)
+            cv2.imshow('Calibration', img_copy)
 
     img_copy = img.copy()
-    cv2.imshow('Set Scale - Click two points 1 cm apart', img_copy)
-    cv2.setMouseCallback('Set Scale - Click two points 1 cm apart', click_event)
+    cv2.imshow('Calibration', img_copy)
+    cv2.setMouseCallback('Calibration', click_event)
 
-    print("👉 Click two points on the scale image that are exactly 1 cm apart.")
+    print("Action Required: Click two points 1 cm apart on the scale image.")
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
     if len(points) != 2:
-        raise ValueError("Error: You must click exactly two points.")
+        raise ValueError("Calibration failed: Two points required.")
 
     dist_pixels = np.linalg.norm(np.array(points[0]) - np.array(points[1]))
-    pixels_per_cm = dist_pixels / 1.0
-    print(f"✅ Scale set: {pixels_per_cm:.2f} pixels = 1 cm")
-    return pixels_per_cm
+    return dist_pixels
 
-# === FUNCTION: LEAF IMAGE PROCESSING (Multi-Color Mask, Robust Contours) ===
 def process_leaf_image(image_path, pixels_per_cm, output_folder):
+    """
+    Performs color segmentation and morphological separation on leaf samples.
+    """
     img = cv2.imread(image_path)
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
-    # Masks for different leaf colors
-    mask_green = cv2.inRange(hsv, np.array([25, 40, 40]), np.array([90, 255, 255]))
-    mask_dark_green = cv2.inRange(hsv, np.array([30, 10, 10]), np.array([80, 255, 100]))
-    mask_brown = cv2.inRange(hsv, np.array([10, 40, 20]), np.array([30, 255, 200]))
-    mask_yellow = cv2.inRange(hsv, np.array([15, 80, 120]), np.array([35, 255, 255]))
+    mask_green = cv2.inRange(hsv, np.array([20, 20, 20]), np.array([100, 255, 255]))
+    mask_dark = cv2.inRange(hsv, np.array([10, 5, 5]), np.array([110, 255, 120]))
+    mask_combined = cv2.bitwise_or(mask_green, mask_dark)
 
-    # Combine masks
-    mask_combined = cv2.bitwise_or(mask_green, mask_dark_green)
-    mask_combined = cv2.bitwise_or(mask_combined, mask_brown)
-    mask_combined = cv2.bitwise_or(mask_combined, mask_yellow)
+    kernel_3 = np.ones((3, 3), np.uint8)
+    kernel_5 = np.ones((5, 5), np.uint8)
+    
+    closed = cv2.morphologyEx(mask_combined, cv2.MORPH_CLOSE, kernel_5, iterations=2)
+    
+    cnts_fill, _ = cv2.findContours(closed, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    filled_mask = np.zeros_like(closed)
+    for c in cnts_fill:
+        cv2.drawContours(filled_mask, [c], -1, 255, -1)
 
-    # Morphological cleaning
-    kernel = np.ones((5, 5), np.uint8)
-    cleaned = cv2.morphologyEx(mask_combined, cv2.MORPH_OPEN, kernel, iterations=2)
-    cleaned = cv2.morphologyEx(cleaned, cv2.MORPH_CLOSE, kernel, iterations=7)
+    eroded = cv2.erode(filled_mask, kernel_3, iterations=6)
+    num_labels, labels = cv2.connectedComponents(eroded)
+    
+    final_contours = []
+    min_area_px = 0.5 * (pixels_per_cm ** 2)
 
-    # Contour detection
-    contours, hierarchy = cv2.findContours(cleaned, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-    img_with_contours = img.copy()
-    leaf_areas_cm2 = []
+    for i in range(1, num_labels):
+        leaf_seed = np.uint8(labels == i) * 255
+        recovered = cv2.dilate(leaf_seed, kernel_3, iterations=12)
+        recovered = cv2.bitwise_and(recovered, filled_mask)
+        
+        cnts, _ = cv2.findContours(recovered, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        if cnts:
+            c = max(cnts, key=cv2.contourArea)
+            if cv2.contourArea(c) > min_area_px:
+                epsilon = 0.0002 * cv2.arcLength(c, True)
+                final_contours.append(cv2.approxPolyDP(c, epsilon, True))
 
-    min_leaf_area_cm2 = 0.5
-    min_leaf_area_pixels = min_leaf_area_cm2 * (pixels_per_cm ** 2)
+    img_out = img.copy()
+    leaf_areas = []
 
-    for i, contour in enumerate(contours):
-        area_pixels = cv2.contourArea(contour)
-        if area_pixels > min_leaf_area_pixels and (hierarchy[0][i][3] == -1):
-            epsilon = 0.0025 * cv2.arcLength(contour, True)
-            contour_smooth = cv2.approxPolyDP(contour, epsilon, True)
-            area_cm2 = area_pixels / (pixels_per_cm ** 2)
-            leaf_areas_cm2.append(area_cm2)
+    for i, contour in enumerate(final_contours, 1):
+        area_cm2 = cv2.contourArea(contour) / (pixels_per_cm ** 2)
+        leaf_areas.append(area_cm2)
 
-            # Draw contours + labels
-            cv2.drawContours(img_with_contours, [contour_smooth], -1, (0, 0, 255), 2)
-            M = cv2.moments(contour_smooth)
-            if M["m00"] != 0:
-                cX = int(M["m10"] / M["m00"])
-                cY = int(M["m01"] / M["m00"])
-                cv2.putText(img_with_contours, str(len(leaf_areas_cm2)), (cX, cY),
-                            cv2.FONT_HERSHEY_SIMPLEX, 2.0, (255, 0, 0), 5)
+        cv2.drawContours(img_out, [contour], -1, (0, 0, 255), 2)
+        M = cv2.moments(contour)
+        if M["m00"] != 0:
+            cX, cY = int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"])
+            cv2.putText(img_out, str(i), (cX, cY), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (255, 0, 0), 3)
 
-    total_leaf_area = sum(leaf_areas_cm2)
-    num_leaves = len(leaf_areas_cm2)
-    avg_leaf_area = total_leaf_area / num_leaves if num_leaves else 0
+    base_name = os.path.splitext(os.path.basename(image_path))[0]
+    cv2.imwrite(os.path.join(output_folder, f"{base_name}_Processed.jpg"), img_out)
 
-    output_image_name = os.path.basename(image_path).replace('.jpg', '_contours.jpg').replace('.jpeg', '_contours.jpg')
-    output_image_path = os.path.join(output_folder, output_image_name)
-    cv2.imwrite(output_image_path, img_with_contours)
+    return sum(leaf_areas), len(leaf_areas), (sum(leaf_areas)/len(leaf_areas) if leaf_areas else 0), leaf_areas
 
-    return total_leaf_area, num_leaves, avg_leaf_area, leaf_areas_cm2
-
-# === MAIN SCRIPT ===
 if __name__ == '__main__':
-    results = []
-    individual_leaf_data = []
+    summary_results = []
+    individual_results = []
 
-    pixels_per_cm = set_scale(scale_image_path)
+    try:
+        px_cm = set_scale(scale_image_path)
+        valid_exts = ('.jpg', '.jpeg', '.png', '.tif', '.tiff')
+        files = [f for f in os.listdir(base_folder) if f.lower().endswith(valid_exts) and f != scale_image_name]
 
-    for filename in os.listdir(base_folder):
-        is_image_file = filename.lower().endswith(('.jpg', '.jpeg', '.png', '.tif', '.tiff'))
-        is_not_scale_image = filename != scale_image_name
+        for filename in files:
+            print(f"Processing: {filename}")
+            total_area, count, avg_area, leaf_list = process_leaf_image(
+                os.path.join(base_folder, filename), px_cm, output_image_folder
+            )
 
-        if is_image_file and is_not_scale_image:
-            image_path = os.path.join(base_folder, filename)
-            print(f"📷 Processing {filename}...")
-            total_area, num_leaves, avg_area, leaf_areas = process_leaf_image(image_path, pixels_per_cm, output_image_folder)
-
-            results.append({
+            summary_results.append({
                 'Image Name': filename,
                 'Total Leaf Area (cm²)': round(total_area, 2),
-                'Number of Leaves': num_leaves,
+                'Number of Leaves': count,
                 'Average Leaf Area (cm²)': round(avg_area, 2)
             })
 
-            for i, leaf_area in enumerate(leaf_areas, start=1):
-                individual_leaf_data.append({
+            for i, area in enumerate(leaf_list, 1):
+                individual_results.append({
                     'Image Name': filename,
                     'Leaf #': i,
-                    'Leaf Area (cm²)': round(leaf_area, 2)
+                    'Leaf Area (cm²)': round(area, 3)
                 })
 
-    pd.DataFrame(results).to_csv(output_csv, index=False)
-    pd.DataFrame(individual_leaf_data).to_csv(output_csv_individual, index=False)
+        pd.DataFrame(summary_results).to_csv(output_csv, index=False)
+        pd.DataFrame(individual_results).to_csv(output_csv_individual, index=False)
 
-    print(f"\n✅ All done! Results saved to:\n{output_csv}")
-    print(f"📄 Individual leaf areas saved to:\n{output_csv_individual}")
-    print(f"🖼 Processed images saved to:\n{output_image_folder}")
+        print(f"\n✅ Analysis complete. Results saved to CSV in: {base_folder}")
 
-
+    except Exception as e:
+        print(f"❌ Error: {e}")
 
