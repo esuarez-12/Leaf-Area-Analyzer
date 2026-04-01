@@ -4,7 +4,7 @@ If you don’t want to run the Python script manually, you can download the read
 
 Go to the Releases section of this repository.
 
-Download the ZIP folder for the latest version (e.g., LeafAreaAnalyzer_v1.1.0.zip).
+Download the ZIP folder for the latest version (LeafAreaAnalyzer_v1.1.zip).
 
 Extract the ZIP file — it contains the Leaf_Area_Analyzer.exe, which can be run directly on Windows without needing Python installed.
 
